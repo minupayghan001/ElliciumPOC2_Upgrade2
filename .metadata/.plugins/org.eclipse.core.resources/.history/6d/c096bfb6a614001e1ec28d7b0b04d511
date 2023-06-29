@@ -1,0 +1,55 @@
+package com.E_POC2.Utility;
+
+import java.io.IOException;
+import java.util.Map;
+
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chromium.ChromiumDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+		   ChromeOptions options = new ChromeOptions();
+		    options.setExperimentalOption("useAutomationExtension", false);
+		    options.addArguments("--headless", "--window-size=1920,1200","--ignore-certificate-errors");
+
+		    DesiredCapabilities crcapabilities = DesiredCapabilities.chrome();
+		    crcapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+		    crcapabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+		    crcapabilities.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+
+		    System.setProperty(ChromeDriverService.CHROME_DRIVER_LOG_PROPERTY, "C:\\temp\\chrome\\chromedriver.log");
+		    System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY, "C:\\temp\\chrome\\chromedriver.exe");
+
+		    ChromeDriverService service = null;
+		    try {
+		        service = new ChromeDriverService.Builder()
+		                .usingAnyFreePort()
+		                .withVerbose(true)
+		                .build();
+		        service.start();
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+
+		    RemoteWebDriver driver = new RemoteWebDriver(service.getUrl(),crcapabilities);
+
+		    driver.get("https://self-signed.badssl.com/");
+		    System.out.println(driver.getPageSource());
+		    driver.quit();
+		
+		
+		
+		System.out.println(driver.getTitle());
+	}
+}

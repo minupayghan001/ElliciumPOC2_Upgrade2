@@ -1,0 +1,113 @@
+package com.E_POC2.PageObject;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.Test;
+
+import com.E_POC2.DataBaseConfiguration.DataBaseConnection;
+import com.E_POC2.TestBase.TestBase;
+import com.github.dockerjava.api.model.Config;
+
+public class PowerBIDashboardVerifyDetails extends TestBase {
+
+	WebDriver driver;
+	
+	public  static List<String> visualNamesList=new ArrayList<>();
+	public  static List<String> visualDataList=new ArrayList<>();
+	
+	DataBaseConnection dbCon=new DataBaseConnection();
+	
+	
+	
+	@FindBy(xpath="//div[@aria-label=\"Institute_name\"]/div")
+	WebElement instituteName;
+	
+	@FindBy(xpath="//div[@aria-label=\"Course_name\"]/div")
+	WebElement courseName;
+	
+	@FindBy(xpath="//div[@aria-label=\"semester\"]/div")
+	WebElement sem;
+	
+	@FindBy(xpath="//div[@aria-label=\"Subject_name\"]/div")
+	WebElement subjectName;
+	
+	@FindBy(xpath = "//div[@aria-label=\"Teacher Name\"]/div")
+	WebElement teacherName;
+	
+	@FindBy(xpath="//div[@aria-label=\"Student_name\"]/div")
+	WebElement studentName;
+	
+	@FindBy(xpath="//div[@aria-label=\"Year\"]/div")
+	WebElement year;
+	
+	public PowerBIDashboardVerifyDetails(WebDriver driver) {
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	
+	
+	public void showDetails() throws ClassNotFoundException, SQLException {
+		
+		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		Connection con=DriverManager.getConnection(config.getConnection_string());
+		
+		String instituteName1=instituteName.getText();
+		String courseName1=courseName.getText();
+		String semester=sem.getText();
+		String subjectName1=subjectName.getText();
+		String teacherName1=teacherName.getText();
+		String studentName1=studentName.getText();
+		String year1=year.getText();
+		
+		System.out.println(instituteName1+" "+courseName1+" "+semester+" "+subjectName1+" "+teacherName1+" "+studentName1+" "+year1);
+		
+		String query= "SELECT \r\n"
+				+ "    [MONTH] AS attendance_month,\r\n"
+				+ "    ROUND(CAST(COUNT(CASE WHEN [Attendance] = 'P' THEN [Attendance_id] END) * 100.00 /\r\n"
+				+ "        COUNT([Attendance_id]) AS FLOAT),2) AS attendance\r\n"
+				+ "FROM   [dbo].[Fact_Attendance]\r\n"
+				+ "    WHERE  [Course_id]=(select Course_id from [POC2].[dbo].[dim_course]\r\n"
+				+ " where Course_name='Computer Engineering') AND [Subject_id]=(select Subject_id from [POC2].[dbo].[Dim_Subject]\r\n"
+				+ " where Subject_name='Engineering Drawing') \r\n"
+				+ " AND[Fact_Attendance].[Enrollment_No] =(select Enrollment_No from [POC2].[dbo].[dim_student]\r\n"
+				+ " where Student_name='Aditi M') \r\n"
+				+ " GROUP BY [MONTH] ORDER BY [MONTH] DESC";
+		
+		Statement st=con.createStatement();
+		ResultSet rs=st.executeQuery(query);
+		String col1="attendance_month";
+		String col2="attendance";
+		HashMap<String, String> dataOutput=new HashMap<String,String>();
+		while(rs.next())
+		{
+			visualNamesList.add(col1);	
+			visualDataList.add(rs.getString(col1));
+			
+			visualNamesList.add(col2);		
+			visualDataList.add(rs.getString(col2));
+			
+		}
+		
+		System.out.println("VisualNameList");
+		
+		for(int i=0;i<visualNamesList.size();i++)
+		{
+			System.out.println(visualNamesList.get(i));
+			System.out.println(visualDataList.get(i));
+		}
+		
+		}
+	}
+

@@ -1,0 +1,50 @@
+package com.E_POC2.PageObject;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class PowerBIDashboardVerifyDetails {
+
+	WebDriver driver;
+	
+	@FindBy(xpath="//div[@aria-label=\"Institute_name\"]/div")
+	WebElement instituteName;
+	
+	@FindBy(xpath="//div[@aria-label=\"Course_name\"]/div")
+	WebElement courseName;
+	
+	@FindBy(xpath="//div[@aria-label=\"semester\"]/div")
+	WebElement sem;
+	
+	@FindBy(xpath="//div[@aria-label=\"Subject_name\"]/div")
+	WebElement subjectName;
+	
+	@FindBy(xpath = "//div[@aria-label=\"Teacher Name\"]/div")
+	WebElement teacherName;
+	
+	@FindBy(xpath="//div[@aria-label=\"Student_name\"]/div")
+	WebElement studentName;
+	
+	@FindBy(xpath="//div[@aria-label=\"Year\"]/div")
+	WebElement year;
+	
+	public PowerBIDashboardVerifyDetails(WebDriver driver) {
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	
+	public void showDetails() {
+		String instituteName1=instituteName.getText();
+		String courseName1=courseName.getText();
+		String semester=sem.getText();
+		String subjectName1=subjectName.getText();
+		String teacherName1=teacherName.getText();
+		String studentName1=studentName.getText();
+		String year1=year.getText();
+		
+		System.out.println(instituteName1+" "+courseName1+" "+semester+" "+subjectName1+" "+teacherName1+" "+studentName1+" "+year1);
+	}
+}

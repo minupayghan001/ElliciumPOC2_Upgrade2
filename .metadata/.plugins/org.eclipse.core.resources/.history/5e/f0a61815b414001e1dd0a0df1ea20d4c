@@ -1,0 +1,58 @@
+package com.E_POC2.TestCases;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import org.testng.annotations.Test;
+
+import com.E_POC2.PageObject.PowerBIDashBoard;
+import com.E_POC2.PageObject.PowerBIDashboardVerifyDetails;
+import com.E_POC2.TestBase.TestBase;
+
+public class PowerBIDashboardTest2 extends TestBase {
+
+	
+	@Test
+	public void login() throws IOException, InterruptedException {
+
+	        //data= ReadFromExcel.readExcelData(config.getTestCasesSheet());
+
+	        driver.get(baseUrl);
+
+	        PowerBIDashBoard powerBIDashboard=new PowerBIDashBoard(driver);
+
+	        Thread.sleep(3000);
+
+	        powerBIDashboard.getEmailId().sendKeys(config.getEmail());
+
+	        powerBIDashboard.getEmailIdFrameSubmit().click();
+
+	        Thread.sleep(6000);
+
+	        powerBIDashboard.getPassword().sendKeys(config.getPassword());
+
+	        powerBIDashboard.getPasswordAndStaySignInButton().click();
+
+	        Thread.sleep(3000);
+
+	        powerBIDashboard.getPasswordAndStaySignInButton().click();
+
+	        Thread.sleep(10000);
+
+	    }
+
+
+
+	    @Test(dependsOnMethods = "login")
+
+	    public void verifyDetails() throws InterruptedException, ClassNotFoundException, SQLException {
+
+	        Thread.sleep(10000);
+
+	        PowerBIDashboardVerifyDetails powerBIDashboardverifyDetails=new PowerBIDashboardVerifyDetails(driver);
+
+	        powerBIDashboardverifyDetails.showDetails();
+
+	    }
+
+}

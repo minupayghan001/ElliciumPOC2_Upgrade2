@@ -1,0 +1,72 @@
+package com.E_POC2.TestCases;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.annotations.Test;
+
+import com.E_POC2.PageObject.PowerBIDashBoard;
+import com.E_POC2.PageObject.PowerBIDashboardVerifyDetails;
+import com.E_POC2.TestBase.TestBase;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class PowerBIDashboardTest2 extends TestBase {
+
+	
+	@Test
+	public void login() throws IOException, InterruptedException {
+
+	        //data= ReadFromExcel.readExcelData(config.getTestCasesSheet());
+
+	    /*    driver.get(baseUrl);
+
+	        PowerBIDashBoard powerBIDashboard=new PowerBIDashBoard(driver);
+
+	        Thread.sleep(3000);
+
+	        powerBIDashboard.getEmailId().sendKeys(config.getEmail());
+
+	        powerBIDashboard.getEmailIdFrameSubmit().click();
+
+	        Thread.sleep(6000);
+
+	        powerBIDashboard.getPassword().sendKeys(config.getPassword());
+
+	        powerBIDashboard.getPasswordAndStaySignInButton().click();
+
+	        Thread.sleep(3000);
+
+	        powerBIDashboard.getPasswordAndStaySignInButton().click();*/
+
+	        Thread.sleep(10000);
+
+	        System.setProperty("webdriver.http.factory", "jdk-http-client");
+			WebDriverManager.chromedriver().setup();
+			ChromeOptions opt=new ChromeOptions();
+			opt.addArguments("--remote-allow-origins=*");
+			opt.addArguments("--headless");
+			opt.addArguments("user-agent=GetMyBoat/Test");
+			opt.setExperimentalOption("debuggerAddress","localhost:56067 ");
+			ChromeDriver driver=new ChromeDriver(opt);
+			
+			System.out.println(driver.getTitle());
+	    }
+
+
+
+	    @Test(dependsOnMethods = "login")
+
+	    public void verifyDetails() throws InterruptedException, ClassNotFoundException, SQLException {
+
+	        Thread.sleep(10000);
+
+	        PowerBIDashboardVerifyDetails powerBIDashboardverifyDetails=new PowerBIDashboardVerifyDetails(driver);
+
+	        powerBIDashboardverifyDetails.showDetails();
+
+	    }
+
+}

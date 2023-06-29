@@ -1,0 +1,10 @@
+package com.E_POC2.PageObject;
+
+import org.openqa.selenium.WebDriver;
+
+public class PowerBIDashboardVerifyDetails {
+
+	WebDriver driver;
+	
+	
+}

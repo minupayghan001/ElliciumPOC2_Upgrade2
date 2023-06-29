@@ -1,0 +1,7 @@
+package com.ElliciumPOC.TestBase;
+
+import com.ElliciumPOC.Utility.ReadConfig;
+
+public class TestBase {
+	public static ReadConfig config=new ReadConfig();
+}

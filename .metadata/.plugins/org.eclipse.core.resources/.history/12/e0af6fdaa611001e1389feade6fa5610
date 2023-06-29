@@ -1,0 +1,39 @@
+package com.E_POC2.PageObject;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class PowerBIDashboardVerifyDetails {
+
+	WebDriver driver;
+	
+	@FindBy(xpath="//div[@aria-label=\"Institute_name\"]/div")
+	WebElement instituteName;
+	
+	@FindBy(xpath="//div[@aria-label=\"Course_name\"]/div")
+	WebElement courseName;
+	
+	@FindBy(xpath="//div[@aria-label=\"semester\"]/div")
+	WebElement sem;
+	
+	@FindBy(xpath="//div[@aria-label=\"Subject_name\"]/div")
+	WebElement subjectName;
+	
+	@FindBy(xpath = "//div[@aria-label=\"Teacher Name\"]/div")
+	WebElement teacherName;
+	
+	@FindBy(xpath="//div[@aria-label=\"Student_name\"]/div")
+	WebElement studentName;
+	
+	@FindBy(xpath="//div[@aria-label=\"Year\"]/div")
+	WebElement year;
+	
+	public PowerBIDashboardVerifyDetails(WebDriver driver) {
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	
+}
